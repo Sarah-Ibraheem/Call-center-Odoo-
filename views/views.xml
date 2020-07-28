@@ -1,0 +1,171 @@
+<odoo>
+    <data>
+        <!-- explicit list view definition -->
+
+        <record model="ir.ui.view" id="my_module.list">
+            <field name="name">my_module list</field>
+            <field name="model">my_module.calls</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="start_time"/>
+                    <field name="stop_time"/>
+                    <field name="source"/>
+                    <field name="destination"/>
+                    <field name="duration" widget="float_time"/>
+                    <field name="station"/>
+
+                </tree>
+            </field>
+        </record>
+
+        <!--    form view-->
+        <record model="ir.ui.view" id="my_module.form">
+            <field name="name">my_module list</field>
+            <field name="model">my_module.calls</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" options="{'clickable': '1'}"/>
+                        <button type="object"  name="create_invoice" string="Create Invoice"/>
+                    </header>
+                    <sheet>
+                        <group>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <field name="partner_id"/>
+                            <field name="start_time"/>
+                            <field name="stop_time"/>
+                            <field name="source"/>
+                            <field name="destination"/>
+                            <field name="duration" widget="float_time"/>
+                            <field name="station"/>
+                            <field name="tags" widget="many2many_tags"/>
+                        </group>
+                    </sheet>
+
+
+                </form>
+            </field>
+        </record>
+
+
+        <!--    calendar-->
+        <record model="ir.ui.view" id="my_module.calender">
+            <field name="name">my_module list</field>
+            <field name="model">my_module.calls</field>
+            <field name="arch" type="xml">
+                <calendar date_start='start_time' date_stop="stop_time">
+
+                    <field name="destination"/>
+                    <field name="duration" widget="float_time"/>
+
+                </calendar>
+            </field>
+        </record>
+
+        <!--    graph  -->
+        <record model="ir.ui.view" id="my_module.graph">
+            <field name="name">my_module list</field>
+            <field name="model">my_module.calls</field>
+            <field name="arch" type="xml">
+                <graph>
+
+                    <field name="start_time"/>
+                    <field name="duration" type="measure"/>
+
+                </graph>
+            </field>
+        </record>
+
+        <!--        kanban-->
+
+        <record model="ir.ui.view" id="my_module.kanban">
+            <field name="name">my_module kanban</field>
+            <field name="model">my_module.calls</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="name"/>
+                    <field name="start_time"/>
+                    <field name="stop_time"/>
+                    <templates>
+                        <t t-name="kanban-box">
+
+                            <div class="oe_kanban_global_click">
+
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+                                <field name="start_time"/>
+                                <field name="stop_time"/>
+
+                            </div>
+                        </t>
+                    </templates>
+
+                </kanban>
+            </field>
+        </record>
+
+        <!--        search-->
+        <record model="ir.ui.view" id="my_module.search">
+            <field name="name">my_module search</field>
+            <field name="model">my_module.calls</field>
+            <field name="arch" type="xml">
+                <search>
+
+                    <field name="station"/>
+                    <field name="name"/>
+                    <field name="source"/>
+                    <field name="destination"/>
+                    <filter name="current_month" string="Start Time" date="start_time"/>
+                    <filter name="invoiced" string="Invoiced" domain="[('state', '=', 'invoiced')]"/>
+                    <filter name="draft" string="Draft" domain="[('state', '=', 'draft')]"/>
+                    <group string="Group By">
+                        <filter name="group_by_state" string="Status" context="{'group_by': 'state'}"/>
+                    </group>
+
+                </search>
+            </field>
+        </record>
+
+        <!-- actions opening views on models -->
+
+        <record model="ir.actions.act_window" id="my_module.action_window">
+            <field name="name">my_module window</field>
+            <field name="res_model">my_module.calls</field>
+            <field name="view_mode">tree,form,calendar,graph,kanban</field>
+        </record>
+
+        <!-- server action to the one above -->
+        <!--
+            <record model="ir.actions.server" id="my_module.action_server">
+              <field name="name">my_module server</field>
+              <field name="model_id" ref="model_my_module_my_module"/>
+              <field name="state">code</field>
+              <field name="code">
+                action = {
+                  "type": "ir.actions.act_window",
+                  "view_mode": "tree,form",
+                  "res_model": model._name,
+                }
+              </field>
+            </record>
+        -->
+
+        <!-- Top menu item -->
+
+        <menuitem name="CallCenter" id="my_module.menu_root"/>
+
+        <!-- menu categories -->
+
+        <menuitem name="Calls" id="my_module.menu_1" parent="my_module.menu_root"/>
+
+        <!-- actions -->
+
+        <menuitem name="List" id="my_module.menu_1_list" parent="my_module.menu_1"
+                  action="my_module.action_window"/>
+
+    </data>
+</odoo>

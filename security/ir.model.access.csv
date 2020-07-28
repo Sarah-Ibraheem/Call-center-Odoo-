@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_my_module_my_module,my_module.my_module,model_my_module_calls,base.group_user,1,1,1,1
+access_my_module_station,my_module.station,model_my_module_station,base.group_user,1,1,1,1
+access_my_module_tags,my_module.tags,model_my_module_tags,base.group_user,1,1,1,1
